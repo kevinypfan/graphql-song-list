@@ -1,0 +1,12 @@
+
+type Singer {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  songs: [Song]
+}
+
+type Query {
+    singers: [Singer]
+    singer(id: ID!): Singer
+}

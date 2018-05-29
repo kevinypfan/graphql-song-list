@@ -1,0 +1,21 @@
+type Song {
+  id: ID!
+  title: String
+  singer: Singer
+  votes: Int
+}
+
+type Query {
+  songs: [Song]
+  song(id: ID!): Song
+}
+
+type Mutation {
+  upvoteSong(songId: ID!): Song
+  addSong(
+    singerId: ID!
+    firstName: String
+    lastName: String
+    title: String!
+  ): Song
+}
