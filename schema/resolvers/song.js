@@ -1,8 +1,18 @@
 const { find, filter } = require('lodash');
 const { songs, singers } = require('../data');
 const crypto = require('crypto');
+const { PubSub } = require('graphql-subscriptions');
+
+const pubsub = new PubSub();
 
 module.exports = {
+  Subscription: {
+    songAdded: {
+      subscribe: () => {
+        return pubsub.asyncIterator('songAdded')
+      },
+    },
+  },
   Query: {
     song: (root, { id }) => {
       const song = find(songs, { id });
@@ -33,7 +43,14 @@ module.exports = {
           singerId: singerRandomId,
           votes: 0
         };
+
         songs.push(song)
+        pubsub.publish('songAdded', {
+          songAdded: {
+            ...song
+          },
+        });
+
         return song;
       } else {
         const songRandomId = crypto.randomBytes(3).toString('base64');
@@ -45,7 +62,14 @@ module.exports = {
           title: args.title,
           votes: 0
         }
+
         songs.push(song)
+        pubsub.publish('songAdded', {
+          songAdded: {
+            ...song
+          },
+        });
+
         return song
       }
     }

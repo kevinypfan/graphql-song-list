@@ -5,6 +5,10 @@ const morgan = require('morgan')
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const schema = require('./schema');
 
+const { createServer } = require('http');
+const { execute, subscribe } = require('graphql');
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+
 
 const PORT = 3000;
 
@@ -14,6 +18,23 @@ app.use(cors());
 app.use(morgan('dev'));
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
-app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql',
+  subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`
+})); // if you want GraphiQL enabled
 
-app.listen(PORT);
+const server = createServer(app);
+
+server.listen(PORT, () => {
+  new SubscriptionServer(
+    {
+      execute,
+      subscribe,
+      schema,
+    },
+    {
+      server,
+      path: '/subscriptions',
+    },
+  );
+});

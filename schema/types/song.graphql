@@ -1,3 +1,7 @@
+type Subscription {
+  songAdded: Song!
+}
+
 type Song {
   id: ID!
   title: String
@@ -18,4 +22,10 @@ type Mutation {
     lastName: String
     title: String!
   ): Song
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
 }
