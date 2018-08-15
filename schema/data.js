@@ -10,7 +10,7 @@ exports.songs = [
   { id: "9", singerId: "3", title: '帶我走', votes: 17 },
 ]
 
-exports.singers = singers = [
+exports.singers = [
   { id: "1", firstName: '蔡', lastName: '依林' },
   { id: "2", firstName: '周', lastName: '杰倫' },
   { id: "3", firstName: '楊', lastName: '丞琳' }

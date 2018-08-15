@@ -1,4 +1,3 @@
-
 type Singer {
   id: ID!
   firstName: String!
