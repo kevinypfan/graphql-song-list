@@ -1,7 +1,3 @@
-type Subscription {
-  songAdded: Song!
-}
-
 type Song {
   id: ID!
   title: String
@@ -24,8 +20,3 @@ type Mutation {
   ): Song
 }
 
-schema {
-  query: Query
-  mutation: Mutation
-  subscription: Subscription
-}

@@ -1,0 +1,10 @@
+type Subscription {
+  songAdded: Song!
+  voteChanged: Song!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}

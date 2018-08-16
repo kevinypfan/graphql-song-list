@@ -12,6 +12,11 @@ module.exports = {
         return pubsub.asyncIterator('songAdded')
       },
     },
+    voteChanged: {
+      subscribe: () => {
+        return pubsub.asyncIterator('voteChanged')
+      },
+    },
   },
   Query: {
     song: (root, { id }) => {
@@ -26,6 +31,11 @@ module.exports = {
       const song = find(songs, { id: songId });
       if (!song) throw new Error(`找不到此歌曲，ID: ${songId}`);
       song.votes += 1;
+      pubsub.publish('voteChanged', {
+        voteChanged: {
+          ...song
+        },
+      });
       return song;
     },
     addSong: (root, args) => {
